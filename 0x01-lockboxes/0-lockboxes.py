@@ -1,31 +1,26 @@
 #!/usr/bin/python3
+"""
+Solution to lockboxes problem
+"""
+
 
 def canUnlockAll(boxes):
     """
-    Determine if all boxes can be opened.
-
-    Args:
-        boxes (list of lists): A list containing lists of keys for each box.
-
-    Returns:
-        bool: True if all boxes can be opened, False otherwise.
+    Determines whether a series of locked boxes can be opened
+    based on keys that can be attained.
+    Solution to the lockboxes problem
     """
-    n = len(boxes)
-    unlocked = [False] * n
-    unlocked[0] = True
-    keys = boxes[0]
-    visited = set()
+    if (type(boxes)) is not list:
+        return False
+    elif (len(boxes)) == 0:
+        return False
 
-    # Use a queue for BFS traversal
-    queue = [0]
-
-    while queue:
-        current_box = queue.pop(0)
-        if current_box not in visited:
-            visited.add(current_box)
-            # Check the keys in the current box
-            for key in boxes[current_box]:
-                if key < n and not unlocked[key]:
-                    queue.append(key)
-
-    return all(unlocked)
+    for n in range(1, len(boxes) - 1):
+        boxes_checked = False
+        for idx in range(len(boxes)):
+            boxes_checked = n in boxes[idx] and n != idx
+            if boxes_checked:
+                break
+        if boxes_checked is False:
+            return boxes_checked
+    return True
