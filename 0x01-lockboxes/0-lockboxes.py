@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+
 def canUnlockAll(boxes):
     """
     Determine if all boxes can be opened.
@@ -13,14 +14,18 @@ def canUnlockAll(boxes):
     unlocked = [False] * n
     unlocked[0] = True
     keys = boxes[0]
-    index = 0
+    visited = set()
 
-    while index < n:
-        if unlocked[index]:
-            for key in keys:
+    # Use a queue for BFS traversal
+    queue = [0]
+
+    while queue:
+        current_box = queue.pop(0)
+        if current_box not in visited:
+            visited.add(current_box)
+            # Check the keys in the current box
+            for key in boxes[current_box]:
                 if key < n and not unlocked[key]:
-                    unlocked[key] = True
-            keys = keys + boxes[index]
-        index += 1
+                    queue.append(key)
 
     return all(unlocked)
